@@ -2,9 +2,9 @@ api:
   provider: "openrouter"    # Seçenekler: openai / openrouter / huggingface
 
 api_keys:
-  openai: "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"
-  openrouter: "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"
-  huggingface: "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"
+  openai: ""
+  openrouter: ""
+  huggingface: ""
 
 models:
   online: "gpt-4o-mini"                # OpenAI modeli
