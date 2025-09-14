@@ -1,0 +1,54 @@
+{
+  "users": {
+    "ali": {
+      "conversations": [
+        {
+          "message": "merhaba senin adın ne",
+          "intent": "greeting",
+          "entities": {}
+        },
+        {
+          "message": "Merhaba! Benim bir ismim yok, ama sen bana istediğin bir isim verebilirsin. Sana nasıl yardımcı olabilirim?",
+          "intent": "bot_response",
+          "entities": {}
+        },
+        {
+          "message": "senin adın tohum",
+          "intent": "greeting",
+          "entities": {}
+        },
+        {
+          "message": "Tamam, adım Tohum olarak kabul edelim. Size yardımcı olabileceğim bir konu var mı?",
+          "intent": "bot_response",
+          "entities": {}
+        },
+        {
+          "message": "komik kedi videolarını seviyorum",
+          "intent": "greeting",
+          "entities": {}
+        },
+        {
+          "message": "Komik kedi videolarını sevdiğine göre, belki paylaşabileceğim bazı öneriler veya komik kedi hikayeleri de vardır. Özellikle hangi tür videoları seviyorsun? Mesela kedi düşme videoları, kedi oyunları ya da ilginç kedi davranışları gibi?",
+          "intent": "bot_response",
+          "entities": {}
+        }
+      ],
+      "context": [
+        {
+          "message": "komik kedi videolarını seviyorum",
+          "intent": "greeting",
+          "entities": {},
+          "timestamp": "2025-09-13T05:33:12.83"
+        },
+        {
+          "message": "kitap okumayı ve oyun oynamayı da severim",
+          "intent": "greeting",
+          "entities": {
+            "product": "kitap"
+          },
+          "timestamp": "2025-09-13T05:34:02.45"
+        }
+      ]
+    }
+  }
+}

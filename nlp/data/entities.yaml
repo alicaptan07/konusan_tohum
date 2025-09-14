@@ -1,0 +1,81 @@
+entities:
+  city:
+    description: Şehir adı
+    examples:
+      - İstanbul
+      - Ankara
+      - Antalya
+      - İzmir
+      - Bursa
+
+  emotion:
+    description: Duygu ifadesi
+    examples:
+      - mutlu
+      - üzgün
+      - stresli
+      - yorgun
+      - heyecanlı
+
+  topic:
+    description: Konuşma konusu
+    examples:
+      - hava durumu
+      - müzik
+      - teknoloji
+      - spor
+      - yapay zeka
+
+  person_name:
+    description: Kişi adı
+    examples:
+      - Ali
+      - Ayşe
+      - Mehmet
+      - Zeynep
+      - Can
+
+  time_reference:
+    description: Zaman ifadesi
+    examples:
+      - bugün
+      - yarın
+      - bu akşam
+      - sabah
+      - hafta sonu
+
+  product:
+    description: Ürün adı
+    examples:
+      - telefon
+      - bilgisayar
+      - kitap
+      - kulaklık
+      - kahve
+
+  activity:
+    description: Eylem veya etkinlik
+    examples:
+      - yürüyüş
+      - film izlemek
+      - kitap okumak
+      - müzik dinlemek
+      - oyun oynamak
+
+  weather_condition:
+    description: Hava durumu ifadesi
+    examples:
+      - yağmur
+      - güneşli
+      - bulutlu
+      - rüzgarlı
+      - kar
+
+  location:
+    description: Yer veya mekan
+    examples:
+      - ev
+      - okul
+      - ofis
+      - kütüphane
+      - sahil

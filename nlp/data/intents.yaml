@@ -1,0 +1,114 @@
+intents:
+  greeting:
+    description: Kullanıcı selam veriyor
+    examples:
+      - merhaba
+      - selam
+      - iyi günler
+      - nasılsın
+
+  farewell:
+    description: Kullanıcı vedalaşıyor
+    examples:
+      - görüşürüz
+      - hoşça kal
+      - bay bay
+      - sonra konuşuruz
+
+  thank_you:
+    description: Teşekkür ifadesi
+    examples:
+      - teşekkür ederim
+      - sağ ol
+      - minnettarım
+
+  apology:
+    description: Özür dileme
+    examples:
+      - özür dilerim
+      - kusura bakma
+      - affedersin
+
+  ask_weather:
+    description: Hava durumu sorgusu
+    examples:
+      - hava nasıl
+      - bugün yağmur var mı
+      - hava durumu nedir
+
+  ask_time:
+    description: Saat sorgusu
+    examples:
+      - saat kaç
+      - şu an saat ne
+      - zamanı söyle
+
+  ask_date:
+    description: Tarih sorgusu
+    examples:
+      - bugün günlerden ne
+      - tarih nedir
+      - ayın kaçı
+
+  ask_joke:
+    description: Fıkra veya espri isteği
+    examples:
+      - bana bir espri yap
+      - komik bir şey söyle
+      - fıkra anlat
+
+  ask_fact:
+    description: İlginç bilgi isteği
+    examples:
+      - bana ilginç bir bilgi ver
+      - şaşırtıcı bir şey söyle
+      - bilgi paylaş
+
+  ask_quote:
+    description: Alıntı veya söz isteği
+    examples:
+      - güzel bir söz söyle
+      - alıntı paylaş
+      - ilham verici bir şey söyle
+
+  express_happiness:
+    description: Mutluluk ifadesi
+    examples:
+      - çok mutluyum
+      - harika hissediyorum
+      - keyfim yerinde
+
+  express_sadness:
+    description: Üzüntü ifadesi
+    examples:
+      - üzgünüm
+      - moralim bozuk
+      - kötü hissediyorum
+
+  ask_help:
+    description: Yardım talebi
+    examples:
+      - yardım eder misin
+      - ne yapmalıyım
+      - bana yol göster
+
+  ask_advice:
+    description: Tavsiye isteği
+    examples:
+      - ne önerirsin
+      - tavsiyen var mı
+      - bana fikir ver
+
+  chitchat:
+    description: Genel sohbet
+    examples:
+      - ne yapıyorsun
+      - nasılsın
+      - bugün nasıldı
+
+  unknown:
+    description: Tanımlanamayan niyet
+    examples:
+      - asdfgh
+      - bilmem
+      - ne dediğimi bilmiyorum

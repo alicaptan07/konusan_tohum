@@ -1,0 +1,88 @@
+Folder PATH listing
+Volume serial number is 32D0-25EB
+C:.
+|   chat_gui.py
+|   main.py
+|   README.md
+|   requirements.txt
+|   tohum_dosya_agaci.txt
+|   
++---core
+|   |   chat_api.py
+|   |   config_manager.py
+|   |   core_engine.py
+|   |   error_handler.py
+|   |   logger.py
+|   |   module_loader.py
+|   |   session_tracker.py
+|   |   
+|   \---__pycache__
+|           chat_api.cpython-311.pyc
+|           config_manager.cpython-311.pyc
+|           core_engine.cpython-311.pyc
+|           module_loader.cpython-311.pyc
+|           
++---diagnostics
+|   |   debug_tools.py
+|   |   health_reporter.py
+|   |   system_tester.py
+|   |   
+|   \---__pycache__
+|           system_tester.cpython-311.pyc
+|           
++---dialog
+|   |   dialog_manager.py
+|   |   feedback_collector.py
+|   |   openrouter_connector.py
+|   |   response_generator.py
+|   |   tone_adjuster.py
+|   |   
+|   \---__pycache__
+|           response_generator.cpython-311.pyc
+|           tone_adjuster.cpython-311.pyc
+|           
++---integration
+|       api_connector.py
+|       data_fetcher.py
+|       db_manager.py
+|       web_search_mod.py
+|       
++---nlp
+|   |   context_manager.py
+|   |   entity_extractor.py
+|   |   entity_loader.py
+|   |   intent_detector.py
+|   |   intent_loader.py
+|   |   nlp_engine.py
+|   |   persona_builder.py
+|   |   
+|   +---data
+|   |       entities.yaml
+|   |       intents.yaml
+|   |       
+|   \---__pycache__
+|           context_manager.cpython-311.pyc
+|           entity_extractor.cpython-311.pyc
+|           intent_detector.cpython-311.pyc
+|           nlp_engine.cpython-311.pyc
+|           persona_builder.cpython-311.pyc
+|           
++---security
+|       auth_manager.py
+|       data_sanitizer.py
+|       permission_checker.py
+|       
++---settings
+|       settings.yaml
+|       
++---tests
+|       test_core.py
+|       test_diagnostics.py
+|       test_dialog.py
+|       test_integration.py
+|       test_nlp.py
+|       test_security.py
+|       
+\---__pycache__
+        main.cpython-311.pyc
+        

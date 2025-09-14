@@ -1,0 +1,41 @@
+{
+  "demo_user": {
+    "history": [
+      {
+        "message": "selam canım",
+        "intent": "general",
+        "entities": null
+      },
+      {
+        "message": "senin adın tohum",
+        "intent": "general",
+        "entities": null
+      },
+      {
+        "message": "sen kimsin",
+        "intent": "general",
+        "entities": null
+      },
+      {
+        "message": "merhaba",
+        "intent": "greeting",
+        "entities": null
+      },
+      {
+        "message": "nasılsın",
+        "intent": "general",
+        "entities": null
+      },
+      {
+        "message": "benim adım ali",
+        "intent": "general",
+        "entities": null
+      },
+      {
+        "message": "benim adım ne",
+        "intent": "general",
+        "entities": null
+      }
+    ]
+  }
+}
