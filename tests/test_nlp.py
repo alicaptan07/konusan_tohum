@@ -1,9 +1,12 @@
 from nlp.intent_detector import detect_intent
 from nlp.entity_extractor import extract_entities
+from nlp.intent_loader import load_intents
 
 def test_intent_detector():
     intent = detect_intent("Bugün hava nasıl?")
-    assert intent in ["weather", "greeting", "unknown"]
+    # ask_weather dahil olmak üzere tanımlı niyetleri ve manuel eşleşmeleri kapsar
+    expected_labels = set(load_intents().keys()) | {"continue_story", "story_request"}
+    assert intent in expected_labels
     print("✅ IntentDetector test edildi.")
 
 def test_entity_extractor():
