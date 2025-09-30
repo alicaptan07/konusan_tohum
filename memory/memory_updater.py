@@ -54,6 +54,27 @@ def auto_update_memory(user_id, message, intent=None, entities=None):
     save_memory({user_id: memory_data})
 
 
+def update_memory(user_id, message, response, intent=None, entities=None):
+    """Kullanıcı mesajını ve yanıtı history'ye ekler."""
+    auto_update_memory(user_id, message, intent=intent, entities=entities)
+
+    memory_data = load_user_memory(user_id)
+    if "history" not in memory_data:
+        memory_data["history"] = []
+
+    if memory_data["history"]:
+        memory_data["history"][-1]["response"] = response
+    else:
+        memory_data["history"].append({
+            "message": message,
+            "response": response,
+            "intent": intent,
+            "entities": entities,
+        })
+
+    save_memory({user_id: memory_data})
+
+
 def get_user_memory(user_id):
     """Kullanıcının tam hafızasını döner."""
     return load_user_memory(user_id)
