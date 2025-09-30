@@ -14,6 +14,10 @@ class ConfigManager:
             print(f"[ConfigManager] YAML yüklenemedi: {e}")
             return {}
 
+    def load_config(self):
+        """Return the cached configuration dictionary."""
+        return self.config or {}
+
     def get(self, key, default=None):
         keys = key.split(".")
         data = self.config
@@ -23,3 +27,15 @@ class ConfigManager:
             else:
                 return default
         return data
+
+    def get_active_modules(self):
+        """Return the list of active modules from the configuration."""
+        modules = self.get("modules.active", default=None)
+        if isinstance(modules, list):
+            return modules
+        return []
+
+
+def load_config():
+    """Backward-compatible helper to load configuration settings."""
+    return ConfigManager().load_config()
