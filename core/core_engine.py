@@ -3,7 +3,8 @@ from nlp.nlp_engine import preprocess_text
 from nlp.entity_extractor import extract_entities
 from nlp.context_manager import update_context
 from dialog.response_generator import generate_response
-from integration.web_search_mod import search_duckduckgo
+from integration.web_search_mod import search
+
 
 def process_message(user_id, message):
     if not message or not message.strip():
@@ -38,9 +39,12 @@ def process_message(user_id, message):
     # 5. Yanıt eksikse web aramasıyla destekle
     if not response or "bilgi yok" in response.lower():
         try:
-            external_info = search_duckduckgo(message)
-            response = f"{external_info} (Kaynak: DuckDuckGo)"
+            search_results = search(message)
+            if search_results:
+                response = f"{search_results[0]} (Kaynak: DuckDuckGo)"
+            else:
+                response = (response or "") + "\n⚠️ Web araması sonuç vermedi."
         except Exception:
-            response += "\n⚠️ Web araması yapılamadı."
+            response = (response or "") + "\n⚠️ Web araması yapılamadı."
 
     return response
