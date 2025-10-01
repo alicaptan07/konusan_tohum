@@ -2,7 +2,7 @@ from nlp.intent_detector import detect_intent
 from nlp.nlp_engine import preprocess_text
 from nlp.entity_extractor import extract_entities
 from nlp.context_manager import update_context
-from dialog.response_generator import generate_response
+from dialog.response_generator import generate
 from integration.web_search_mod import search
 
 
@@ -32,7 +32,7 @@ def process_message(user_id, message):
 
     # 4. GPT tabanlı yanıt üretimi
     try:
-        response = generate_response(clean_text, intent, entities, context)
+        response = generate(intent, entities, context, user_id=user_id)
     except Exception as e:
         response = f"⚠️ Yanıt üretilemedi: {str(e)}"
 
