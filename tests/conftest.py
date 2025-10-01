@@ -1,14 +1,9 @@
+"""Test yapılandırması için yardımcı fonksiyonlar."""
+
 import sys
-import types
+from pathlib import Path
 
-if "transformers" not in sys.modules:
-    transformers_stub = types.ModuleType("transformers")
 
-    def _stub_pipeline(*args, **kwargs):
-        def _generator(*_args, **_kwargs):
-            return [{"generated_text": "stub"}]
-
-        return _generator
-
-    transformers_stub.pipeline = _stub_pipeline
-    sys.modules["transformers"] = transformers_stub
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))

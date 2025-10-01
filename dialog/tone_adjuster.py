@@ -34,3 +34,9 @@ def adjust(text, tone):
     """Kısa yol fonksiyon."""
 
     return tone_adjuster.adjust(text, tone)
+
+
+def adjust_tone(text, tone):
+    """Geriye dönük uyumluluk sağlayan sarmalayıcı."""
+
+    return adjust(text, tone)
