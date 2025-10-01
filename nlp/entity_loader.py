@@ -1,7 +1,14 @@
-import os
-import yaml
+"""Load entity definitions without requiring external dependencies."""
 
-def load_entities(path=None):
+from __future__ import annotations
+
+import os
+from typing import Dict, List
+
+from .yaml_utils import parse_mapping_with_examples
+
+
+def load_entities(path: str | None = None) -> Dict[str, Dict[str, List[str]]]:
     if path is None:
         base_dir = os.path.dirname(os.path.abspath(__file__))
         path = os.path.join(base_dir, "data", "entities.yaml")
@@ -10,5 +17,6 @@ def load_entities(path=None):
         raise FileNotFoundError(f"❌ entities.yaml bulunamadı: {path}")
 
     with open(path, "r", encoding="utf-8") as file:
-        data = yaml.safe_load(file)
-    return data["entities"]
+        content = file.read()
+
+    return parse_mapping_with_examples(content, root_key="entities")
