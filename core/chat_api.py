@@ -1,7 +1,7 @@
 from nlp.intent_detector import detect_intent
 from nlp.entity_extractor import extract_entities
 from nlp.context_manager import update_context, get_context
-from nlp.persona_builder import get_persona
+from nlp.persona_builder import build_persona
 from dialog.response_generator import generate
 from dialog.tone_adjuster import adjust
 
@@ -18,7 +18,7 @@ def process_message(user_id, message):
     context_history = update_context(user_id, message, intent, entities)
 
     # Kişilik profili ve ton bilgisi
-    persona_data = get_persona(user_id)
+    persona_data = build_persona(user_id)
     if not isinstance(persona_data, dict):
         persona_data = {}
     else:
