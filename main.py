@@ -25,7 +25,7 @@ def initialize_system():
 
     # Örnek mesaj işleme (ileride chat_api ile bağlanacak)
     if "dialog.response_generator" in modules:
-        response = modules["dialog.response_generator"].generate("selam", {}, {}, user_id="test_user")
+        response = modules["dialog.response_generator"].generate("selam", {}, [], user_id="test_user")
         print(f"\n🗣 Yanıt: {response}")
 
 # Doğrudan çalıştırıldığında sistem başlatılır
