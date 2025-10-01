@@ -59,10 +59,22 @@ def call_api(url: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any
 
 class AIConnector:
     def __init__(self):
-        config = load_config()
-        self.provider = config["api"]["provider"]
-        self.keys = config["api_keys"]
-        self.models = config["models"]
+        config = load_config() or {}
+
+        api_config = config.get("api") if isinstance(config, dict) else None
+        if not isinstance(api_config, dict):
+            api_config = {}
+
+        self.provider = api_config.get("provider", "offline")
+        self.keys = config.get("api_keys", {}) if isinstance(config, dict) else {}
+        self.models = config.get("models", {}) if isinstance(config, dict) else {}
+
+        if not isinstance(self.keys, dict):
+            self.keys = {}
+        if not isinstance(self.models, dict):
+            self.models = {}
+        self.models.setdefault("online", "gpt-3.5-turbo")
+        self.models.setdefault("offline", "konusan-tohum-offline")
 
     def chat(self, message, user_memory="", context=""):
         try:
