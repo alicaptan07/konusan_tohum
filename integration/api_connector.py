@@ -89,6 +89,6 @@ class AIConnector:
 
             else:
                 # Offline veya başka provider fallback
-                return generate_response(message, intent=None, entities=None, context=context)
+                return generate_response(message)
         except Exception as e:
             return f"⚠️ API hatası: {str(e)}"
