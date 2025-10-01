@@ -1,7 +1,6 @@
 import openai
 from core.config_manager import load_config
 from dialog.response_generator import generate_response
-from integration.web_search_mod import search_duckduckgo
 
 class AIConnector:
     def __init__(self):
