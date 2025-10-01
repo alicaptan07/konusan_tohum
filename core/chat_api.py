@@ -26,15 +26,8 @@ def process_message(user_id, message):
     tone = persona_data.get("tone") or persona_data.get("default_tone") or "neutral"
     persona_data.setdefault("tone", tone)
 
-    # Yanıt üretimi için zenginleştirilmiş bağlam
-    conversation_context = {
-        "history": context_history,
-        "persona": persona_data,
-        "tone": tone,
-    }
-
     # Yanıt üretimi
-    raw_response = generate(intent, entities, conversation_context)
+    raw_response = generate(intent, entities, context_history, user_id=user_id)
     final_response = adjust(raw_response, tone)
 
     return final_response
