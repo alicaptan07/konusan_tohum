@@ -1,5 +1,8 @@
 # integration/ai_connector.py
-import requests
+try:
+    import requests
+except ImportError:  # pragma: no cover - optional dependency
+    requests = None
 
 from core.config_manager import ConfigManager
 from dialog.response_generator import generate_response
@@ -18,6 +21,8 @@ class AIConnector:
         provider = (provider or self.provider or "offline").lower()
 
         if provider == "openrouter" and self.api_key_openrouter:
+            if requests is None:
+                return generate_response(message)
             try:
                 headers = {"Authorization": f"Bearer {self.api_key_openrouter}"}
                 payload = {
@@ -35,6 +40,8 @@ class AIConnector:
             provider = "offline"
 
         if provider == "openai" and self.api_key_openai:
+            if requests is None:
+                return generate_response(message)
             try:
                 headers = {"Authorization": f"Bearer {self.api_key_openai}"}
                 payload = {

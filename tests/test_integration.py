@@ -1,5 +1,8 @@
+import builtins
+import importlib
 import sys
 import types
+from unittest.mock import patch
 
 if "transformers" not in sys.modules:
     transformers_stub = types.ModuleType("transformers")
@@ -42,3 +45,32 @@ def test_ai_connector_offline_fallback(monkeypatch):
 
     assert isinstance(result, str)
     assert result == "offline yanıt"
+
+
+def test_integration_ai_connector_without_requests(monkeypatch):
+    monkeypatch.delitem(sys.modules, "integration.ai_connector", raising=False)
+
+    original_import = builtins.__import__
+
+    def fake_import(name, *args, **kwargs):
+        if name == "requests":
+            raise ImportError("No module named 'requests'")
+        return original_import(name, *args, **kwargs)
+
+    with patch("builtins.__import__", side_effect=fake_import):
+        module = importlib.import_module("integration.ai_connector")
+
+    monkeypatch.setattr(
+        module,
+        "generate_response",
+        lambda message: "offline yanıt (requests yok)"
+    )
+
+    connector = module.AIConnector()
+    connector.api_key_openai = "dummy"
+
+    result = connector.chat("Merhaba", provider="openai")
+
+    assert result == "offline yanıt (requests yok)"
+
+    importlib.reload(module)
