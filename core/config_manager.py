@@ -14,6 +14,10 @@ class ConfigManager:
             print(f"[ConfigManager] YAML yüklenemedi: {e}")
             return {}
 
+    def load_config(self):
+        """Yüklü yapılandırma sözlüğünü döndür."""
+        return self.config
+
     def get(self, key, default=None):
         keys = key.split(".")
         data = self.config
@@ -23,3 +27,14 @@ class ConfigManager:
             else:
                 return default
         return data
+
+    def get_active_modules(self):
+        """Yapılandırmadan etkin modül listesini döndür."""
+        modules_section = self.config.get("modules", {}) if isinstance(self.config, dict) else {}
+        active_modules = modules_section.get("active", []) if isinstance(modules_section, dict) else []
+        return active_modules if isinstance(active_modules, list) else []
+
+
+def load_config():
+    """Yeni bir ConfigManager örneğinden yapılandırmayı döndür."""
+    return ConfigManager().load_config()

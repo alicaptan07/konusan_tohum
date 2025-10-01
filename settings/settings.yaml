@@ -11,6 +11,11 @@ models:
   openrouter: "openai/gpt-3.5-turbo"   # OpenRouter modeli
   offline: "google/flan-t5-large"      # HuggingFace offline modeli
 
+modules:
+  active:
+    - "dialog.response_generator"
+    - "integration.web_search_mod"
+
 api:
   provider: "openrouter"   # Buradan sağlayıcıyı seç: openai | openrouter | offline
 
