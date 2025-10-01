@@ -1,23 +1,36 @@
 # dialog/tone_adjuster.py
-from nlp.emotion_tracker import get_emotion
+
 
 class ToneAdjuster:
-    def __init__(self):
-        pass
+    """Metni belirtilen tona göre ayarlayan yardımcı sınıf."""
 
-    def adjust(self, user_id, text):
-        emotion = get_emotion(user_id)
-        if not emotion:
+    TONE_SUFFIXES = {
+        "positive": " 😊",
+        "encouraging": " 💪",
+        "neutral": "",
+        "empathetic": " 🤝",
+        "negative": " 💭"
+    }
+
+    def adjust(self, text, tone):
+        if not text:
+            return ""
+
+        if not tone:
             return text
 
-        if emotion == "pozitif":
-            return text + " 😊"
-        elif emotion == "negatif":
-            return text + " 💭"
-        return text
+        suffix = self.TONE_SUFFIXES.get(tone.lower())
+        if suffix is None:
+            return text
+
+        return f"{text}{suffix}"
+
 
 # Global örnek
 tone_adjuster = ToneAdjuster()
 
-def adjust_tone(user_id, text):
-    return tone_adjuster.adjust(user_id, text)
+
+def adjust(text, tone):
+    """Kısa yol fonksiyon."""
+
+    return tone_adjuster.adjust(text, tone)
