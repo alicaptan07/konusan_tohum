@@ -57,3 +57,21 @@ def auto_update_memory(user_id, message, intent=None, entities=None):
 def get_user_memory(user_id):
     """Kullanıcının tam hafızasını döner."""
     return load_user_memory(user_id)
+
+
+def update_memory(user_id, message, response):
+    """Kullanıcının mesaj/yanıt geçmişini günceller ve JSON bütünlüğünü doğrular."""
+    memory_data = load_user_memory(user_id)
+
+    history = memory_data.get("history", [])
+    history.append({
+        "message": message,
+        "response": response,
+    })
+    memory_data["history"] = history[-20:]
+
+    save_memory({user_id: memory_data})
+
+    # JSON yapısının bozulmadığını doğrula
+    with open(MEMORY_FILE, "r", encoding="utf-8") as f:
+        json.load(f)
