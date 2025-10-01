@@ -1,18 +1,15 @@
 api:
-  provider: "openrouter"    # Seçenekler: openai / openrouter / huggingface
+  provider: "openrouter"   # Sağlayıcıyı seç: openai | openrouter | offline (offline seçeneği API anahtarı gerektirmez ve models.offline kullanılır)
 
 api_keys:
   openai: ""
   openrouter: ""
-  huggingface: ""
+  huggingface: ""        # Offline modunda gerekmez.
 
 models:
   online: "gpt-4o-mini"                # OpenAI modeli
   openrouter: "openai/gpt-3.5-turbo"   # OpenRouter modeli
-  offline: "google/flan-t5-large"      # HuggingFace offline modeli
-
-api:
-  provider: "openrouter"   # Buradan sağlayıcıyı seç: openai | openrouter | offline
+  offline: "google/flan-t5-large"      # Offline mod için kullanılacak Hugging Face modeli
 
 memory:
   path: "memory/data/"                 # JSON dosyalarının saklanacağı klasör

@@ -2,9 +2,19 @@
 
 from transformers import pipeline
 
-# Hugging Face'ten hazır pipeline (örnek: küçük bir model ile test için)
-# Daha güçlü bir model kullanmak istersen buradaki model adını değiştirebilirsin.
-generator = pipeline("text-generation", model="gpt2")
+from core.config_manager import ConfigManager
+
+_GENERATOR = None
+
+
+def _get_generator():
+    """Modeli tek seferde oluşturup önbelleğe al."""
+    global _GENERATOR
+    if _GENERATOR is None:
+        config = ConfigManager()
+        model_name = config.get("models.offline", "gpt2")
+        _GENERATOR = pipeline("text-generation", model=model_name)
+    return _GENERATOR
 
 
 def generate_response(message: str) -> str:
@@ -14,6 +24,7 @@ def generate_response(message: str) -> str:
     :return: Yapay zeka tarafından üretilen yanıt
     """
     try:
+        generator = _get_generator()
         response = generator(
             message,
             max_length=100,

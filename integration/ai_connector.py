@@ -1,17 +1,21 @@
 # integration/ai_connector.py
 import requests
+
 from core.config_manager import ConfigManager
+from dialog.response_generator import generate_response
 
 class AIConnector:
     def __init__(self):
         self.config = ConfigManager()
+        self.provider = self.config.get("api.provider", "openai")
         self.api_key_openai = self.config.get("api_keys.openai")
         self.api_key_openrouter = self.config.get("api_keys.openrouter")
         self.model_openai = self.config.get("models.online", "gpt-4o-mini")
         self.model_openrouter = self.config.get("models.openrouter", "openai/gpt-3.5-turbo")
 
-    def chat(self, message, provider="openai"):
+    def chat(self, message, provider=None):
         response = None
+        provider = (provider or self.provider or "offline").lower()
 
         if provider == "openrouter" and self.api_key_openrouter:
             try:
@@ -27,6 +31,8 @@ class AIConnector:
                     return response
             except Exception as e:
                 print(f"[AIConnector] OpenRouter hatası: {e}")
+        if provider == "openrouter":
+            provider = "offline"
 
         if provider == "openai" and self.api_key_openai:
             try:
@@ -42,5 +48,10 @@ class AIConnector:
                     return response
             except Exception as e:
                 print(f"[AIConnector] OpenAI hatası: {e}")
+        if provider == "openai":
+            provider = "offline"
+
+        if provider == "offline" or not response:
+            return generate_response(message)
 
         return "Üzgünüm, şu anda cevap üretemiyorum."
