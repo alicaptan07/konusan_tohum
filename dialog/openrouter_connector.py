@@ -1,5 +1,8 @@
 # dialog/openrouter_connector.py
-import requests
+try:
+    import requests  # type: ignore
+except ImportError:  # pragma: no cover - environment without requests
+    requests = None
 from core.config_manager import ConfigManager
 
 config = ConfigManager()
@@ -8,6 +11,10 @@ OPENROUTER_KEY = api_keys.get("openrouter")
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 def call_openrouter_api(prompt, model="openai/gpt-3.5-turbo"):
+    if requests is None:
+        raise RuntimeError(
+            "The 'requests' library is required to call the OpenRouter API, but it is not installed."
+        )
     headers = {"Authorization": f"Bearer {OPENROUTER_KEY}"}
     payload = {"model": model, "messages": [{"role": "user", "content": prompt}]}
     r = requests.post(OPENROUTER_URL, headers=headers, json=payload)
