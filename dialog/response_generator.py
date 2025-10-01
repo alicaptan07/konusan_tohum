@@ -1,10 +1,20 @@
 # dialog/response_generator.py
 
-from transformers import pipeline
+try:
+    from transformers import pipeline
+except ImportError:  # pragma: no cover - çevrimdışı ortamlara uyum
+    pipeline = None
 
 from core.config_manager import ConfigManager
 
 _GENERATOR = None
+
+
+class _FallbackGenerator:
+    """Dış bağımlılık olmadığında kullanılan basit üretici."""
+
+    def __call__(self, prompt, **kwargs):
+        return [{"generated_text": prompt}]
 
 
 def _get_generator():
@@ -13,7 +23,10 @@ def _get_generator():
     if _GENERATOR is None:
         config = ConfigManager()
         model_name = config.get("models.offline", "gpt2")
-        _GENERATOR = pipeline("text-generation", model=model_name)
+        if pipeline is None:
+            _GENERATOR = _FallbackGenerator()
+        else:
+            _GENERATOR = pipeline("text-generation", model=model_name)
     return _GENERATOR
 
 

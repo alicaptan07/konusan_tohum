@@ -1,5 +1,8 @@
 # core/config_manager.py
-import yaml
+try:
+    import yaml
+except ImportError:  # pragma: no cover - çevrimdışı ortamlara uyum
+    yaml = None
 
 class ConfigManager:
     def __init__(self, config_path="settings/settings.yaml"):
@@ -8,6 +11,8 @@ class ConfigManager:
 
     def _load_yaml(self):
         try:
+            if yaml is None:
+                return {}
             with open(self.config_path, "r", encoding="utf-8") as f:
                 return yaml.safe_load(f)
         except Exception as e:

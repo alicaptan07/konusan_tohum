@@ -3,7 +3,7 @@ from nlp.entity_extractor import extract_entities
 from nlp.context_manager import update_context, get_context
 from nlp.persona_builder import get_persona
 from dialog.response_generator import generate
-from dialog.tone_adjuster import adjust_tone
+from dialog.tone_adjuster import adjust
 
 
 def process_message(user_id, message):
@@ -35,7 +35,7 @@ def process_message(user_id, message):
 
     # Yanıt üretimi
     raw_response = generate(intent, entities, conversation_context)
-    final_response = adjust_tone(user_id, raw_response)
+    final_response = adjust(raw_response, tone)
 
     return final_response
 
