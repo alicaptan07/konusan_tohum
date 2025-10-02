@@ -38,7 +38,11 @@ if "transformers" not in sys.modules:
     transformers_stub.pipeline = _stub_pipeline
     sys.modules["transformers"] = transformers_stub
 
-from konusan_tohum.integration.api_connector import AIConnector, call_api
+from konusan_tohum.integration.api_connector import (
+    AIConnector,
+    _build_stub_response,
+    call_api,
+)
 from konusan_tohum.integration.web_search_mod import search
 
 
@@ -112,6 +116,27 @@ def test_call_api_timeout_retries_and_stub():
     }
     assert mock_get.call_count == 3
     mock_sleep.assert_has_calls([call(0.5), call(1.0)])
+
+
+def test_call_api_import_error_returns_stub(monkeypatch):
+    monkeypatch.delitem(sys.modules, "requests", raising=False)
+
+    original_import = builtins.__import__
+
+    def fake_import(name, *args, **kwargs):
+        if name == "requests":
+            raise ImportError("blocked requests")
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", fake_import)
+
+    url = "https://api.example.com/import-error"
+    params = {"x": 42, "a": "b"}
+
+    result = call_api(url, params)
+    expected = _build_stub_response(url, params)
+
+    assert result == expected
 
 
 def test_ai_connector_offline_fallback(monkeypatch):
