@@ -1,5 +1,7 @@
 from typing import Any, Dict, Optional
 
+import time
+
 try:
     import openai  # type: ignore
 except ImportError:  # pragma: no cover - optional dependency
@@ -22,40 +24,81 @@ def _build_stub_response(url: str, params: Optional[Dict[str, Any]] = None) -> D
     }
 
 
-def call_api(url: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def call_api(
+    url: str,
+    params: Optional[Dict[str, Any]] = None,
+    *,
+    timeout: float = 5,
+    retries: int = 0,
+    backoff_factor: float = 0.5,
+) -> Dict[str, Any]:
     """Lightweight API helper that gracefully falls back to a stub response.
 
-    The function attempts to perform a real HTTP GET using the requests library.
-    When the client library is unavailable or a network error occurs, the
-    function returns a deterministic stub response so that tests can run
-    without external dependencies.
+    Parameters
+    ----------
+    url:
+        Target endpoint for the HTTP GET request.
+    params:
+        Query parameters forwarded to the remote endpoint. The mapping is also
+        used to build the deterministic stub payload when network access is not
+        possible.
+    timeout:
+        Per-request timeout value passed directly to ``requests.get``. Defaults
+        to ``5`` seconds to keep backward compatibility.
+    retries:
+        The number of retry attempts when the HTTP call fails. Retries use an
+        exponential backoff controlled by ``backoff_factor``. ``0`` preserves
+        the previous behaviour and performs a single request attempt.
+    backoff_factor:
+        The base delay in seconds for exponential backoff. Each retry waits for
+        ``backoff_factor * (2 ** attempt_index)`` seconds before retrying. The
+        value is ignored when ``retries`` is set to ``0``.
+
+    Returns
+    -------
+    Dict[str, Any]
+        Successful responses contain the raw payload returned by ``requests``.
+        When the client library is unavailable or network errors persist after
+        exhausting the configured retries, the function returns a deterministic
+        stub response so that tests can run without external dependencies.
     """
 
     params = params or {}
+
+    # Guard against negative retry values to keep behaviour predictable.
+    if retries < 0:
+        retries = 0
 
     try:
         import requests  # Local import to avoid mandatory dependency.
     except ImportError:
         return _build_stub_response(url, params)
 
-    try:
-        response = requests.get(url, params=params, timeout=5)
-        response.raise_for_status()
-        content_type = response.headers.get("Content-Type", "")
-        payload: Any
-        if content_type.startswith("application/json"):
-            payload = response.json()
-        else:
-            payload = response.text
+    for attempt in range(retries + 1):
+        try:
+            response = requests.get(url, params=params, timeout=timeout)
+            response.raise_for_status()
+            content_type = response.headers.get("Content-Type", "")
+            payload: Any
+            if content_type.startswith("application/json"):
+                payload = response.json()
+            else:
+                payload = response.text
 
-        return {
-            "status": "ok",
-            "url": url,
-            "params": params,
-            "data": payload,
-        }
-    except Exception:
-        return _build_stub_response(url, params)
+            return {
+                "status": "ok",
+                "url": url,
+                "params": params,
+                "data": payload,
+            }
+        except Exception:
+            if attempt < retries:
+                # Exponential backoff with deterministic timing for tests.
+                delay = backoff_factor * (2**attempt)
+                if delay > 0:
+                    time.sleep(delay)
+                continue
+            return _build_stub_response(url, params)
 
 class AIConnector:
     def __init__(self):

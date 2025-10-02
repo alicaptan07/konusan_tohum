@@ -26,10 +26,65 @@ def test_web_search():
     print("✅ WebSearchMod test edildi.")
 
 
-def test_api_connector():
-    response = call_api("https://api.example.com", {"q": "test"})
-    assert response is not None
+def test_api_connector(monkeypatch):
+    class _DummyResponse:
+        headers = {"Content-Type": "application/json"}
+
+        @staticmethod
+        def raise_for_status():
+            return None
+
+        @staticmethod
+        def json():
+            return {"message": "ok"}
+
+    def _dummy_get(url, params=None, timeout=None):
+        return _DummyResponse()
+
+    dummy_requests = types.SimpleNamespace(get=_dummy_get)
+    monkeypatch.setitem(sys.modules, "requests", dummy_requests)
+
+    response = call_api("https://api.example.com", {"q": "test"}, timeout=3)
+
+    assert response["status"] == "ok"
+    assert response["data"] == {"message": "ok"}
+    assert response["params"] == {"q": "test"}
     print("✅ APIConnector test edildi.")
+
+
+def test_call_api_retries_return_stub(monkeypatch):
+    attempts = []
+
+    def _failing_get(url, params=None, timeout=None):
+        attempts.append({"timeout": timeout, "params": params})
+        raise RuntimeError("boom")
+
+    dummy_requests = types.SimpleNamespace(get=_failing_get)
+    monkeypatch.setitem(sys.modules, "requests", dummy_requests)
+
+    sleeps = []
+    monkeypatch.setattr(
+        "konusan_tohum.integration.api_connector.time.sleep",
+        lambda duration: sleeps.append(duration),
+    )
+
+    response = call_api(
+        "https://api.example.com",
+        {"q": "retry"},
+        timeout=7,
+        retries=2,
+        backoff_factor=0.1,
+    )
+
+    assert response == {
+        "status": "stub",
+        "url": "https://api.example.com",
+        "params": {"q": "retry"},
+        "data": "stub-response-for-https://api.example.com",
+    }
+    assert len(attempts) == 3
+    assert all(call["timeout"] == 7 for call in attempts)
+    assert sleeps == [0.1, 0.2]
 
 
 def test_ai_connector_offline_fallback(monkeypatch):
