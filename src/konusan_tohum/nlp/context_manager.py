@@ -1,3 +1,5 @@
+"""Konuşan Tohum bağlam yöneticisi, kullanıcı etkileşim geçmişini güncelleyip özetleyerek diyaloğu kişiselleştirir."""
+
 from konusan_tohum.memory.memory_updater import (
     auto_update_memory,
     load_user_memory,

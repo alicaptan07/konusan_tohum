@@ -1,3 +1,5 @@
+"""Konuşan Tohum sohbet API köprüsü, NLP niyet analizi, persona üretimi ve diyalog yanıtlayıcısını birleştirerek kullanıcı mesajlarını işler."""
+
 from konusan_tohum.nlp.intent_detector import detect_intent
 from konusan_tohum.nlp.entity_extractor import extract_entities
 from konusan_tohum.nlp.context_manager import update_context, get_context

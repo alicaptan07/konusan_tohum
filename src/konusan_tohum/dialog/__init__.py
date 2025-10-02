@@ -1,4 +1,4 @@
-"""Dialog modülü paket başlangıç dosyası."""
+"""Konuşan Tohum diyalog paketi, yanıt üretimi, ton ayarı, geri bildirim ve LLM bağlantı katmanlarını düzenler."""
 
 __all__ = [
     "dialog_manager",

@@ -1,3 +1,5 @@
+"""Konuşan Tohum çekirdek motoru, ön işleme, niyet ve varlık tespiti, bağlam güncellemesi ve web destekli yanıt üretimini orkestre eder."""
+
 from konusan_tohum.nlp.intent_detector import detect_intent
 from konusan_tohum.nlp.nlp_engine import preprocess_text
 from konusan_tohum.nlp.entity_extractor import extract_entities

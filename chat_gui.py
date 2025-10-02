@@ -1,3 +1,5 @@
+"""Konuşan Tohum masaüstü sohbet arayüzü, hafıza ve bağlam hizmetleriyle etkileşim kuran Tkinter tabanlı demo istemcisini sunar."""
+
 import tkinter as tk
 from tkinter import scrolledtext
 import json

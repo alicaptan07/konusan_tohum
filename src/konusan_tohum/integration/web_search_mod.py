@@ -1,14 +1,4 @@
-"""Lightweight web search helpers used by the integration tests.
-
-The original project relies on the :mod:`requests` package to call the
-DuckDuckGo API.  The execution environment for the kata does not ship with
-third‑party dependencies, therefore importing :mod:`requests` raises a
-``ModuleNotFoundError`` and the tests fail during collection.  To keep the
-tests hermetic we perform the import lazily and gracefully fall back to
-deterministic offline data when the dependency or the network is
-unavailable.  The implementation purposely keeps the interface small while
-remaining faithful to the behaviour the rest of the project expects.
-"""
+"""Konuşan Tohum web arama modülü, DuckDuckGo sorgularını yöneten ve çevrimdışı durumlar için deterministik yanıtlar üreten hafif bir arayüz sağlar."""
 
 from __future__ import annotations
 

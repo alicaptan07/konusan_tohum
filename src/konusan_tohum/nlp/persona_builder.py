@@ -1,3 +1,5 @@
+"""Konuşan Tohum persona oluşturucusu, kullanıcı hafızasından stil tercihlerini okuyup diyaloğa yön veren persona profilleri üretir."""
+
 # nlp/persona_builder.py
 from copy import deepcopy
 

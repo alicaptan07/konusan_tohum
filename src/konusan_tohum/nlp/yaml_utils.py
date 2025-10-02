@@ -1,4 +1,4 @@
-"""Minimal YAML helpers tailored to the project's fixture files."""
+"""Konuşan Tohum YAML yardımcıları, NLP örneklerini bağımlılıksız ayrıştırmak için minimal bir yorumlayıcı sunar."""
 
 from __future__ import annotations
 

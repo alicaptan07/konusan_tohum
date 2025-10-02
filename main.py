@@ -1,3 +1,5 @@
+"""Konuşan Tohum başlangıç yürütücüsü, çekirdek konfigürasyonu yükleyip modül altyapısını ayağa kaldırır ve sistem sağlığını doğrulayan bir örnek çalışma akışı sunar."""
+
 from konusan_tohum.core.config_manager import ConfigManager
 from konusan_tohum.core.module_loader import ModuleLoader
 from konusan_tohum.diagnostics.system_tester import SystemTester

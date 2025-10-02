@@ -1,3 +1,5 @@
+"""Konuşan Tohum OpenRouter bağlayıcısı, yapılandırmadan aldığı anahtarlarla OpenRouter sohbet API çağrılarını yönetir ve gerekirse hataları yüzeye çıkarır."""
+
 # dialog/openrouter_connector.py
 try:
     import requests  # type: ignore

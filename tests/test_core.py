@@ -1,3 +1,5 @@
+"""Konuşan Tohum çekirdek bileşenlerinin günlükleme ve yapılandırma davranışını doğrulayan birim testleri."""
+
 from konusan_tohum.core.config_manager import ConfigManager
 from konusan_tohum.core.logger import Logger
 

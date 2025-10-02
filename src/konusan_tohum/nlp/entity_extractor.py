@@ -1,3 +1,5 @@
+"""Konuşan Tohum varlık çıkarıcısı, önceden tanımlı örneklerle kullanıcı mesajlarından anlamlı varlıklar tespit eder."""
+
 import re
 from konusan_tohum.nlp.entity_loader import load_entities
 

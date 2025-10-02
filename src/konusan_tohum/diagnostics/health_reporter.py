@@ -1,3 +1,5 @@
+"""Konuşan Tohum sağlık raporlama aracı, sistem test sonuçlarını toplayıp anlaşılır özet metriklere dönüştürür."""
+
 def report(test_results):
     total = len(test_results)
     passed = sum(1 for result in test_results.values() if result)

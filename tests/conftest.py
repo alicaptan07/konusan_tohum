@@ -1,4 +1,4 @@
-"""Test yapılandırması için yardımcı fonksiyonlar."""
+"""Konuşan Tohum test ortamı yapılandırması, paket kökünü ve kaynak kodunu testler sırasında içe aktarılabilir hale getirir."""
 
 import sys
 from pathlib import Path

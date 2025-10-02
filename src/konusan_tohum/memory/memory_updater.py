@@ -1,3 +1,5 @@
+"""Konuşan Tohum hafıza güncelleyicisi, kullanıcı geçmişini dosya tabanlı depoda yönetir ve bağlam servisleriyle senkron tutar."""
+
 import json
 import os
 from pathlib import Path

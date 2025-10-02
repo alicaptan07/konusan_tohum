@@ -1,3 +1,5 @@
+"""Konuşan Tohum mod anahtarlayıcısı, niyet sinyallerine göre sohbet kiplerini takip edip günceller."""
+
 # nlp/mode_switcher.py
 
 _modes = {}

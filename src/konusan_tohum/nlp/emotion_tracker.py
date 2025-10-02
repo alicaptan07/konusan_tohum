@@ -1,3 +1,5 @@
+"""Konuşan Tohum duygu izleyicisi, kullanıcı ruh hali sinyallerini hafif bir kayıt yapısında saklar."""
+
 # nlp/emotion_tracker.py
 
 _emotions = {}

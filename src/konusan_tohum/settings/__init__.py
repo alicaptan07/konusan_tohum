@@ -1,1 +1,1 @@
-"""konusan_tohum.settings package."""
+"""Konuşan Tohum ayarlar paketi, uygulama yapılandırma dosyalarını ve şablonlarını organize eder."""

@@ -1,3 +1,5 @@
+"""Konuşan Tohum izin denetleyicisi, rol bazlı eylem yetkilendirmesini doğrular."""
+
 permissions = {
     "admin": ["read", "write", "delete"],
     "guest": ["read"]

@@ -1,3 +1,5 @@
+"""Konuşan Tohum yapılandırma yöneticisi, YAML tabanlı ayar dosyalarını okuyarak etkin modülleri ve çalışma parametrelerini servis eder."""
+
 # core/config_manager.py
 from pathlib import Path
 

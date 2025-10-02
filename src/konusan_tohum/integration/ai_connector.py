@@ -1,3 +1,5 @@
+"""Konuşan Tohum AI bağlayıcısı, OpenAI ve OpenRouter sağlayıcılarıyla konuşmaları yöneten ve gerekirse çevrimdışı üreticiye dönen bir soyutlama sunar."""
+
 # integration/ai_connector.py
 try:
     import requests

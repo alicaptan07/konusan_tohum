@@ -1,4 +1,4 @@
-"""Load entity definitions without requiring external dependencies."""
+"""Konuşan Tohum varlık yükleyicisi, YAML tabanlı tanımları okuyarak çıkarım motoruna besler."""
 
 from __future__ import annotations
 

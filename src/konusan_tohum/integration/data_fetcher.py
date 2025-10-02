@@ -1,3 +1,5 @@
+"""Konuşan Tohum veri toplayıcısı, yerel ve uzak örnek veri kaynaklarına tek noktadan erişim sağlar."""
+
 def fetch(source):
     if source == "local":
         return {"data": "Yerel veri örneği"}

@@ -1,3 +1,5 @@
+"""Konuşan Tohum API bağlayıcısı, HTTP isteklerini yönetir, ağ hatalarında deterministik sahte yanıt üretir ve AI bağlayıcısını besler."""
+
 from typing import Any, Dict, Optional
 
 try:

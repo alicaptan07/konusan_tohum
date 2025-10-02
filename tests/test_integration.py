@@ -1,3 +1,5 @@
+"""Konuşan Tohum entegrasyon katmanının web araması, API istemcisi ve AI köprülerini birlikte doğrulayan senaryolar."""
+
 import builtins
 import importlib
 import sys

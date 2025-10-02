@@ -1,3 +1,5 @@
+"""Konuşan Tohum sistem testçisi, yüklenen modüllerin temel ping kontrollerini çalıştırarak çalışırlığı doğrular."""
+
 class SystemTester:
     def __init__(self, modules):
         self.modules = modules

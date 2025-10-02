@@ -1,3 +1,5 @@
+"""Konuşan Tohum güvenlik yardımcılarının veri temizleme süreçlerini sınayan testler."""
+
 from konusan_tohum.security.data_sanitizer import sanitize
 
 def test_data_sanitizer():

@@ -1,3 +1,5 @@
+"""Konuşan Tohum yanıt üreticisi, kural tabanlı mesajlarla dönüştürücü modeller arasında köprü kurarak çevrimdışı senaryolara uyum sağlar."""
+
 # dialog/response_generator.py
 
 try:

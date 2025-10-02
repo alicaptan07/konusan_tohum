@@ -1,3 +1,5 @@
+"""Konuşan Tohum ton ayarlayıcısı, üretilen yanıtları persona tonlarına göre zenginleştirir."""
+
 # dialog/tone_adjuster.py
 
 

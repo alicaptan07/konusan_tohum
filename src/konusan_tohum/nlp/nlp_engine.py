@@ -1,3 +1,5 @@
+"""Konuşan Tohum NLP motoru, metin ön işleme ve temel analiz fonksiyonlarını düzenler."""
+
 import re
 
 def preprocess_text(text):

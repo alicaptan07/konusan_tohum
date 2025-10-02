@@ -1,4 +1,4 @@
-"""Utility helpers for loading intent definitions without external deps."""
+"""Konuşan Tohum niyet yükleyicisi, YAML tanımlarını okuyarak niyet örneklerini ve açıklamalarını hazırlar."""
 
 from __future__ import annotations
 

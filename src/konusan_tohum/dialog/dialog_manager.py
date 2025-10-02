@@ -1,3 +1,5 @@
+"""Konuşan Tohum diyalog yöneticisi, yanıt üretimi ile hafıza güncellemelerini birleştirerek uçtan uca mesaj işleme sağlar."""
+
 # dialog/dialog_manager.py
 
 from konusan_tohum.dialog.response_generator import generate_response

@@ -1,3 +1,5 @@
+"""Konuşan Tohum diyalog yanıtlayıcısının kural tabanlı üretim yollarını sınayan testler."""
+
 import pytest
 
 from konusan_tohum.dialog.response_generator import (

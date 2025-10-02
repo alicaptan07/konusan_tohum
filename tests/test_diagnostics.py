@@ -1,3 +1,5 @@
+"""Konuşan Tohum tanılama katmanının SystemTester akışını denetleyen testler."""
+
 from konusan_tohum.diagnostics.system_tester import SystemTester
 
 def test_system_tester():

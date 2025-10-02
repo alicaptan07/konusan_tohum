@@ -1,3 +1,5 @@
+"""Konuşan Tohum niyet dedektörü, dönüştürücü modeller ve manuel eşleştirmeyi harmanlayarak kullanıcı mesajlarını etiketler."""
+
 from konusan_tohum.nlp.intent_loader import load_intents
 
 try:

@@ -1,3 +1,5 @@
+"""Konuşan Tohum masaüstü arayüzünün hafıza ve bağlam panellerini güncellemesini doğrulayan testler."""
+
 import json
 import chat_gui
 

@@ -1,3 +1,5 @@
+"""Konuşan Tohum veri temizleyicisi, sohbet girdilerini XSS ve basit enjeksiyon risklerine karşı arındırır."""
+
 import re
 
 def sanitize(text):

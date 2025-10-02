@@ -1,3 +1,5 @@
+"""Konuşan Tohum modül yükleyicisi, yapılandırmada tanımlı bileşenleri dinamik olarak içe aktarır ve kullanılabilir örnekleri yönetir."""
+
 import importlib
 import logging
 

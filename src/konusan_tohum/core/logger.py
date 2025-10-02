@@ -1,3 +1,5 @@
+"""Konuşan Tohum günlükleme yardımcı sınıfı, çekirdek akıştaki olayları zaman damgası ve önem seviyesiyle standart biçimde kayda geçirir."""
+
 import datetime
 
 class Logger:

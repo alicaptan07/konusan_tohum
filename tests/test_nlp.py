@@ -1,3 +1,5 @@
+"""Konuşan Tohum NLP katmanının niyet ve varlık çıkarımı için sunduğu yolları değerlendiren testler."""
+
 from konusan_tohum.nlp.entity_extractor import extract_entities
 from konusan_tohum.nlp.intent_detector import IntentDetector, detect_intent
 
