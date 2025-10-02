@@ -59,6 +59,7 @@ def update_context(user_id, message, intent=None, entities=None):
     if len(memory["context"]) > MAX_HISTORY:
         memory["context"] = memory["context"][-MAX_HISTORY:]
 
+    save_memory({user_id: memory})
     auto_update_memory(user_id, message, intent, entities)
     return memory["context"]
 
