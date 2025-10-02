@@ -51,12 +51,22 @@ def generate_response(message: str) -> str:
         return f"[Hata] Yanıt üretilemedi: {e}"
 
 
-RULE_BASED_RESPONSES = {
+_BASE_RULE_RESPONSES = {
     "greeting": "Merhaba! Size nasıl yardımcı olabilirim?",
     "goodbye": "Görüşmek üzere! Yardıma ihtiyacınız olursa buradayım.",
     "thanks": "Rica ederim! Başka bir konuda destek ister misiniz?",
     "help": "Elbette, hangi konuda yardıma ihtiyacınız var?"
 }
+
+_INTENT_ALIASES = {
+    "farewell": "goodbye",
+    "thank_you": "thanks",
+    "ask_help": "help",
+}
+
+RULE_BASED_RESPONSES = dict(_BASE_RULE_RESPONSES)
+for alias, target in _INTENT_ALIASES.items():
+    RULE_BASED_RESPONSES[alias] = _BASE_RULE_RESPONSES.get(target, "")
 
 
 def _entity_summary(entities):
@@ -74,6 +84,7 @@ def generate(intent, entities, context, user_id=None):
     """Niyet, varlıklar ve bağlamı kullanarak yanıt üretir."""
 
     intent_key = (intent or "").lower()
+    intent_key = _INTENT_ALIASES.get(intent_key, intent_key)
 
     if intent_key in RULE_BASED_RESPONSES:
         base_response = RULE_BASED_RESPONSES[intent_key]
