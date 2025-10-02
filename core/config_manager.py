@@ -1,3 +1,21 @@
+"""Utilities for loading and validating Konuşan Tohum configuration.
+
+The :class:`ConfigManager` is responsible for reading the main
+``settings/settings.yaml`` file once, exposing read-only helpers for the rest of
+the application.  The loader defends against missing optional dependencies
+(``pyyaml``) and malformed files so that continuous integration jobs can
+exercise the codebase without additional setup.  Modules consume the manager via
+``ConfigManager.get`` to access feature flags (for example ``modules.active``),
+API credentials, and model selection knobs such as ``models.offline`` or
+``models.openai``.
+
+Downstream components (connectors, dialog engines and diagnostics) rely on the
+configuration data to decide whether to use online services, offline fallbacks
+or additional logging.  When new configuration keys are introduced they should
+be parsed through this module so that validation and default handling remain
+centralised.
+"""
+
 # core/config_manager.py
 try:
     import yaml

@@ -1,3 +1,15 @@
+"""Bridges chat requests to the configured AI provider or offline fallback.
+
+The :class:`AIConnector` consults the central configuration to determine which
+provider should receive chat prompts.  Supported keys include
+``api.provider`` (``openai``, ``openrouter`` or ``offline``), ``api_keys`` for
+credential management and ``models`` for choosing the concrete model IDs.  When
+network access or third-party dependencies are not available the connector
+routes the request to :func:`dialog.response_generator.generate_response`,
+making the behaviour reproducible within CI pipelines while still exercising
+logging hooks in the surrounding orchestration.
+"""
+
 # integration/ai_connector.py
 try:
     import requests

@@ -5,9 +5,11 @@ DuckDuckGo API.  The execution environment for the kata does not ship with
 third‑party dependencies, therefore importing :mod:`requests` raises a
 ``ModuleNotFoundError`` and the tests fail during collection.  To keep the
 tests hermetic we perform the import lazily and gracefully fall back to
-deterministic offline data when the dependency or the network is
-unavailable.  The implementation purposely keeps the interface small while
-remaining faithful to the behaviour the rest of the project expects.
+deterministic offline data when the dependency or the network is unavailable.
+The module can be toggled through ``modules.active`` entries in
+``settings/settings.yaml`` so that deployments can swap in richer web-search
+providers without changing call sites, while logging keeps track of which path
+was exercised during CI.
 """
 
 from __future__ import annotations

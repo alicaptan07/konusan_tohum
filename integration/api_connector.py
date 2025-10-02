@@ -1,3 +1,14 @@
+"""Utility helpers that proxy API calls according to runtime configuration.
+
+The module provides a defensive :class:`AIConnector` used by the legacy web
+layer.  Configuration keys such as ``api.provider``, ``api_keys.openai`` and
+``models.online`` dictate whether real OpenAI completions are attempted or if
+the system should fall back to :func:`dialog.response_generator.generate_response`.
+The lightweight ``call_api`` helper mirrors the same philosophy by returning
+deterministic stub payloads during tests, ensuring continuous integration flows
+remain repeatable even without network access.
+"""
+
 from typing import Any, Dict, Optional
 
 try:

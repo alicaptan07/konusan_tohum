@@ -1,3 +1,16 @@
+"""Response generation helpers driven by configuration and runtime context.
+
+The module exposes both lightweight rule-based replies and a configurable
+language-model pipeline.  ``ConfigManager`` keys such as ``models.offline`` and
+``models.openrouter`` allow integrators to steer which local or hosted model is
+used while automated tests continue to rely on the deterministic fallback
+generator.  The utilities here are consumed by the integration connectors to
+provide a consistent experience regardless of whether requests are routed to
+OpenAI, OpenRouter or the offline engine.  Logging hooks in the higher-level
+loaders can trace which generator was picked, ensuring CI runs remain
+reproducible.
+"""
+
 # dialog/response_generator.py
 
 try:
