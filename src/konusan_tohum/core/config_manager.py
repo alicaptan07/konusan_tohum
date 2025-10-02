@@ -2,6 +2,11 @@
 from pathlib import Path
 
 try:
+    from yaml import YAMLError
+except ImportError:  # pragma: no cover - çevrimdışı ortamlara uyum
+    YAMLError = Exception
+
+try:
     import yaml
 except ImportError:  # pragma: no cover - çevrimdışı ortamlara uyum
     yaml = None
@@ -16,16 +21,29 @@ class ConfigManager:
     def __init__(self, config_path=None):
         self.config_path = Path(config_path) if config_path else _DEFAULT_CONFIG_PATH
         self.config = self._load_yaml()
+        self._validate_config()
 
     def _load_yaml(self):
-        try:
-            if yaml is None:
-                return {}
-            with open(self.config_path, "r", encoding="utf-8") as f:
-                return yaml.safe_load(f)
-        except Exception as e:
-            print(f"[ConfigManager] YAML yüklenemedi: {e}")
+        if yaml is None:
             return {}
+
+        try:
+            with open(self.config_path, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f)
+        except FileNotFoundError as exc:  # pragma: no cover - gerçek dosya eksikliği
+            raise FileNotFoundError(
+                f"Yapılandırma dosyası bulunamadı: {self.config_path}"
+            ) from exc
+        except YAMLError as exc:
+            raise ValueError("Yapılandırma dosyası geçerli bir YAML değil.") from exc
+        except OSError as exc:  # pragma: no cover - IO hataları
+            raise ValueError(f"Yapılandırma dosyası okunamadı: {exc}") from exc
+
+        return data or {}
+
+    def _validate_config(self):
+        if not isinstance(self.config, dict):
+            raise ValueError("Yapılandırma sözlük formatında olmalıdır.")
 
     def load_config(self):
         """Return the cached configuration dictionary."""
