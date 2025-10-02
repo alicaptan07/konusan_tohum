@@ -51,59 +51,15 @@ def generate_response(message: str) -> str:
         return f"[Hata] Yanıt üretilemedi: {e}"
 
 
-_BASE_RULE_RESPONSES = {
-    "greeting": "Merhaba! Size nasıl yardımcı olabilirim?",
-    "goodbye": "Görüşmek üzere! Yardıma ihtiyacınız olursa buradayım.",
-    "thanks": "Rica ederim! Başka bir konuda destek ister misiniz?",
-    "help": "Elbette, hangi konuda yardıma ihtiyacınız var?"
-}
-
-_INTENT_ALIASES = {
-    "farewell": "goodbye",
-    "thank_you": "thanks",
-    "ask_help": "help",
-}
-
-RULE_BASED_RESPONSES = dict(_BASE_RULE_RESPONSES)
-for alias, target in _INTENT_ALIASES.items():
-    RULE_BASED_RESPONSES[alias] = _BASE_RULE_RESPONSES.get(target, "")
-
-
-def _entity_summary(entities):
-    if not entities:
-        return ""
-
-    if isinstance(entities, dict):
-        items = [f"{key}: {value}" for key, value in entities.items()]
-    else:
-        items = [str(entity) for entity in entities]
-    return ", ".join(items)
-
-
 def generate(intent, entities, context, user_id=None):
-    """Niyet, varlıklar ve bağlamı kullanarak yanıt üretir."""
-
-    intent_key = (intent or "").lower()
-    intent_key = _INTENT_ALIASES.get(intent_key, intent_key)
-
-    if intent_key in RULE_BASED_RESPONSES:
-        base_response = RULE_BASED_RESPONSES[intent_key]
-        entity_text = _entity_summary(entities)
-        if entity_text:
-            base_response += f" (Belirttiğiniz bilgiler: {entity_text})"
-        return base_response
+    """`generate_response` çağrısı için geriye dönük uyumlu sarmalayıcı."""
 
     if context:
         latest_message = context[-1].get("message", "")
     else:
-        latest_message = intent or "Merhaba"
+        latest_message = intent or ""
 
-    response = generate_response(latest_message)
-
-    if isinstance(response, str):
-        return response
-
-    return str(response)
+    return generate_response(latest_message)
 
 
 if __name__ == "__main__":
