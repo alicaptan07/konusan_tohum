@@ -12,7 +12,7 @@ remaining faithful to the behaviour the rest of the project expects.
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional, Protocol
 
 _OFFLINE_RESULTS: Dict[str, List[str]] = {
     "antalya hava durumu": [
@@ -28,12 +28,35 @@ def _normalise(query: str) -> str:
     return query.strip().lower()
 
 
-def search_duckduckgo(query: str) -> Optional[str]:
-    """Query the DuckDuckGo API if the requests dependency is available."""
+class SupportsGet(Protocol):
+    """Minimal protocol describing the part of requests used by the module."""
+
+    def get(self, url: str, params: Optional[Dict[str, Any]] = None, timeout: Optional[int] = None):
+        ...
+
+
+def _resolve_client(http_client: Optional[SupportsGet]) -> Optional[SupportsGet]:
+    if http_client is not None:
+        return http_client
 
     try:  # pragma: no cover - ImportError branch executed in tests
-        import requests
+        import requests  # type: ignore
+
+        return requests
     except ImportError:
+        return None
+
+
+def search_duckduckgo(
+    query: str,
+    *,
+    http_client: Optional[SupportsGet] = None,
+    timeout: int = 5,
+) -> Optional[str]:
+    """Query the DuckDuckGo API using the provided (or default) HTTP client."""
+
+    client = _resolve_client(http_client)
+    if client is None:
         return None
 
     url = "https://api.duckduckgo.com/"
@@ -45,7 +68,7 @@ def search_duckduckgo(query: str) -> Optional[str]:
     }
 
     try:
-        response = requests.get(url, params=params, timeout=5)
+        response = client.get(url, params=params, timeout=timeout)
         response.raise_for_status()
         data = response.json()
     except Exception:  # pragma: no cover - network disabled in tests
@@ -63,7 +86,12 @@ def _offline_search(query: str) -> List[str]:
     return _OFFLINE_RESULTS.get(_normalise(query), [])
 
 
-def search(query: str) -> List[str]:
+def search(
+    query: str,
+    *,
+    http_client: Optional[SupportsGet] = None,
+    timeout: int = 5,
+) -> List[str]:
     """Return DuckDuckGo search summaries as a list.
 
     The function attempts an online lookup first.  When that fails we
@@ -71,7 +99,7 @@ def search(query: str) -> List[str]:
     continue to operate in a fully isolated environment.
     """
 
-    result = search_duckduckgo(query)
+    result = search_duckduckgo(query, http_client=http_client, timeout=timeout)
     if isinstance(result, str):
         cleaned = result.strip()
         if cleaned:
