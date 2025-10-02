@@ -183,3 +183,5 @@ cython_debug/
 # Project runtime logs
 logs/
 logs.txt
+*.log
+*.log.*
