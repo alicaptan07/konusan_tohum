@@ -1,3 +1,4 @@
+import time
 from typing import Any, Dict, Optional
 
 try:
@@ -38,24 +39,38 @@ def call_api(url: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any
     except ImportError:
         return _build_stub_response(url, params)
 
-    try:
-        response = requests.get(url, params=params, timeout=5)
-        response.raise_for_status()
-        content_type = response.headers.get("Content-Type", "")
-        payload: Any
-        if content_type.startswith("application/json"):
-            payload = response.json()
-        else:
-            payload = response.text
+    max_retries = 3
+    backoff_factor = 0.5
+    timeout_seconds = 5
 
-        return {
-            "status": "ok",
-            "url": url,
-            "params": params,
-            "data": payload,
-        }
-    except Exception:
-        return _build_stub_response(url, params)
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, params=params, timeout=timeout_seconds)
+            response.raise_for_status()
+            content_type = response.headers.get("Content-Type", "")
+            payload: Any
+            if content_type.startswith("application/json"):
+                payload = response.json()
+            else:
+                payload = response.text
+
+            return {
+                "status": "ok",
+                "url": url,
+                "params": params,
+                "data": payload,
+            }
+        except Exception:
+            if attempt < max_retries - 1:
+                delay = backoff_factor * (2 ** attempt)
+                try:
+                    time.sleep(delay)
+                except Exception:
+                    pass
+            else:
+                break
+
+    return _build_stub_response(url, params)
 
 class AIConnector:
     def __init__(self):
