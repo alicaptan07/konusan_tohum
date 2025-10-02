@@ -7,6 +7,21 @@ except ImportError:  # pragma: no cover - çevrimdışı ortamlara uyum
 
 from konusan_tohum.core.config_manager import ConfigManager
 
+RULE_BASED_RESPONSES = {
+    "greeting": "Merhaba! Size nasıl yardımcı olabilirim?",
+    "help": "Hangi konuda yardıma ihtiyacınız var?",
+    "goodbye": "Görüşmek üzere! Yardımcı olabildiysem ne mutlu bana.",
+    "thanks": "Rica ederim, her zaman yardımcı olmaktan memnuniyet duyarım!",
+}
+
+_INTENT_ALIASES = {
+    "ask_help": "help",
+    "thank_you": "thanks",
+    "farewell": "goodbye",
+}
+
+__all__ = ["RULE_BASED_RESPONSES", "generate_response", "generate"]
+
 _GENERATOR = None
 
 
@@ -53,6 +68,13 @@ def generate_response(message: str) -> str:
 
 def generate(intent, entities, context, user_id=None):
     """`generate_response` çağrısı için geriye dönük uyumlu sarmalayıcı."""
+
+    normalized_intent = (intent or "").lower()
+    mapped_intent = _INTENT_ALIASES.get(normalized_intent, normalized_intent)
+    if mapped_intent:
+        rule_based_response = RULE_BASED_RESPONSES.get(mapped_intent)
+        if rule_based_response is not None:
+            return rule_based_response
 
     if context:
         latest_message = context[-1].get("message", "")
