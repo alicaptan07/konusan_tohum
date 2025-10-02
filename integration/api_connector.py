@@ -1,4 +1,5 @@
-from typing import Any, Dict, Optional
+import time
+from typing import Any, Dict, Optional, Sequence
 
 try:
     import openai  # type: ignore
@@ -22,7 +23,16 @@ def _build_stub_response(url: str, params: Optional[Dict[str, Any]] = None) -> D
     }
 
 
-def call_api(url: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+_RETRYABLE_STATUS_CODES: Sequence[int] = (429, 500, 502, 503, 504, 522, 524)
+
+
+def call_api(
+    url: str,
+    params: Optional[Dict[str, Any]] = None,
+    *,
+    max_retries: int = 3,
+    backoff_factor: float = 0.5,
+) -> Dict[str, Any]:
     """Lightweight API helper that gracefully falls back to a stub response.
 
     The function attempts to perform a real HTTP GET using the requests library.
@@ -38,24 +48,62 @@ def call_api(url: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any
     except ImportError:
         return _build_stub_response(url, params)
 
-    try:
-        response = requests.get(url, params=params, timeout=5)
-        response.raise_for_status()
-        content_type = response.headers.get("Content-Type", "")
-        payload: Any
-        if content_type.startswith("application/json"):
-            payload = response.json()
-        else:
-            payload = response.text
+    # Bazı ortamlar requests.Timeout yerine exceptions.Timeout kullanır.
+    timeout_exceptions: Sequence[type] = tuple(
+        exc
+        for exc in (
+            getattr(requests, "Timeout", None),
+            getattr(getattr(requests, "exceptions", None), "Timeout", None),
+        )
+        if isinstance(exc, type)
+    )
 
-        return {
-            "status": "ok",
-            "url": url,
-            "params": params,
-            "data": payload,
-        }
-    except Exception:
-        return _build_stub_response(url, params)
+    last_error: Optional[Exception] = None
+    delay = backoff_factor
+
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(url, params=params, timeout=5)
+        except Exception as exc:  # pragma: no cover - farklı hata türleri
+            last_error = exc
+        else:
+            status_code = getattr(response, "status_code", None)
+            if isinstance(status_code, int) and 200 <= status_code < 300:
+                content_type = response.headers.get("Content-Type", "")
+                payload: Any
+                if content_type.startswith("application/json"):
+                    payload = response.json()
+                else:
+                    payload = response.text
+
+                return {
+                    "status": "ok",
+                    "url": url,
+                    "params": params,
+                    "data": payload,
+                }
+
+            if status_code in _RETRYABLE_STATUS_CODES:
+                last_error = Exception(f"HTTP {status_code}")
+            else:
+                try:
+                    response.raise_for_status()
+                except Exception as exc:  # pragma: no cover - requests ayrıntıları
+                    last_error = exc
+                break
+
+        # Başarısız denemeler için geri çekilme uygula.
+        if attempt < max_retries - 1:
+            if timeout_exceptions and last_error and isinstance(last_error, timeout_exceptions):
+                pass
+            # Geri çekilme sırasında bekleme yapılırken hatalara toleranslı ol.
+            try:
+                time.sleep(delay)
+            except Exception:
+                pass
+            delay *= 2
+
+    return _build_stub_response(url, params)
 
 class AIConnector:
     def __init__(self):
