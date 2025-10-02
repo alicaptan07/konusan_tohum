@@ -12,7 +12,12 @@ def initialize_system():
 
     # Modülleri yükle
     loader = ModuleLoader(active_modules)
-    loader.load_all()
+    try:
+        loader.load_all()
+    except Exception as exc:
+        print(f"❌ Modül yüklenemedi: {exc}")
+        return
+
     modules = loader.get_all_modules()
 
     # Modül testi
