@@ -1,4 +1,4 @@
-from diagnostics.system_tester import SystemTester
+from konusan_tohum.diagnostics.system_tester import SystemTester
 
 def test_system_tester():
     dummy_modules = {"mod1": object(), "mod2": object()}

@@ -1,4 +1,4 @@
-from security.data_sanitizer import sanitize
+from konusan_tohum.security.data_sanitizer import sanitize
 
 def test_data_sanitizer():
     clean = sanitize("<script>alert('x')</script>")

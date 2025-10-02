@@ -1,5 +1,5 @@
-from nlp.intent_detector import IntentDetector, detect_intent
-from nlp.entity_extractor import extract_entities
+from konusan_tohum.nlp.entity_extractor import extract_entities
+from konusan_tohum.nlp.intent_detector import IntentDetector, detect_intent
 
 def test_intent_detector():
     intent = detect_intent("Bugün hava nasıl?")

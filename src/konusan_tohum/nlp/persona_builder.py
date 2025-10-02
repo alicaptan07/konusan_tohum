@@ -1,7 +1,7 @@
 # nlp/persona_builder.py
 from copy import deepcopy
 
-from memory.memory_updater import load_user_memory
+from konusan_tohum.memory.memory_updater import load_user_memory
 
 
 def get_persona(style="learner"):

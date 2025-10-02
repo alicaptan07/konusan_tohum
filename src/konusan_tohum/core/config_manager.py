@@ -1,12 +1,20 @@
 # core/config_manager.py
+from pathlib import Path
+
 try:
     import yaml
 except ImportError:  # pragma: no cover - çevrimdışı ortamlara uyum
     yaml = None
 
+
+_DEFAULT_CONFIG_PATH = (
+    Path(__file__).resolve().parent.parent / "settings" / "settings.yaml"
+)
+
+
 class ConfigManager:
-    def __init__(self, config_path="settings/settings.yaml"):
-        self.config_path = config_path
+    def __init__(self, config_path=None):
+        self.config_path = Path(config_path) if config_path else _DEFAULT_CONFIG_PATH
         self.config = self._load_yaml()
 
     def _load_yaml(self):

@@ -3,7 +3,7 @@ try:
     import requests  # type: ignore
 except ImportError:  # pragma: no cover - environment without requests
     requests = None
-from core.config_manager import ConfigManager
+from konusan_tohum.core.config_manager import ConfigManager
 
 config = ConfigManager()
 api_keys = config.get("api_keys", {})

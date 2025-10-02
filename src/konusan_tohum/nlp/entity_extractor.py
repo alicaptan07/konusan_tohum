@@ -1,5 +1,5 @@
 import re
-from nlp.entity_loader import load_entities
+from konusan_tohum.nlp.entity_loader import load_entities
 
 class EntityExtractor:
     def __init__(self):

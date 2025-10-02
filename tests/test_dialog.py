@@ -1,6 +1,9 @@
 import pytest
 
-from dialog.response_generator import RULE_BASED_RESPONSES, generate
+from konusan_tohum.dialog.response_generator import (
+    RULE_BASED_RESPONSES,
+    generate,
+)
 
 
 @pytest.mark.parametrize(
