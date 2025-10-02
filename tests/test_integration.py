@@ -16,8 +16,8 @@ if "transformers" not in sys.modules:
     transformers_stub.pipeline = _stub_pipeline
     sys.modules["transformers"] = transformers_stub
 
-from integration.web_search_mod import search
-from integration.api_connector import call_api, AIConnector
+from konusan_tohum.integration.api_connector import AIConnector, call_api
+from konusan_tohum.integration.web_search_mod import search
 
 
 def test_web_search():
@@ -38,7 +38,8 @@ def test_ai_connector_offline_fallback(monkeypatch):
     connector.keys = {}
 
     monkeypatch.setattr(
-        "integration.api_connector.generate_response", lambda message: "offline yanıt"
+        "konusan_tohum.integration.api_connector.generate_response",
+        lambda message: "offline yanıt",
     )
 
     result = connector.chat("Merhaba")
@@ -48,7 +49,7 @@ def test_ai_connector_offline_fallback(monkeypatch):
 
 
 def test_integration_ai_connector_without_requests(monkeypatch):
-    monkeypatch.delitem(sys.modules, "integration.ai_connector", raising=False)
+    monkeypatch.delitem(sys.modules, "konusan_tohum.integration.ai_connector", raising=False)
 
     original_import = builtins.__import__
 
@@ -58,7 +59,7 @@ def test_integration_ai_connector_without_requests(monkeypatch):
         return original_import(name, *args, **kwargs)
 
     with patch("builtins.__import__", side_effect=fake_import):
-        module = importlib.import_module("integration.ai_connector")
+        module = importlib.import_module("konusan_tohum.integration.ai_connector")
 
     monkeypatch.setattr(
         module,

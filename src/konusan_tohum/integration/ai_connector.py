@@ -4,8 +4,8 @@ try:
 except ImportError:  # pragma: no cover - optional dependency
     requests = None
 
-from core.config_manager import ConfigManager
-from dialog.response_generator import generate_response
+from konusan_tohum.core.config_manager import ConfigManager
+from konusan_tohum.dialog.response_generator import generate_response
 
 class AIConnector:
     def __init__(self):

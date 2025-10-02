@@ -1,6 +1,6 @@
-from core.config_manager import ConfigManager
-from core.module_loader import ModuleLoader
-from diagnostics.system_tester import SystemTester
+from konusan_tohum.core.config_manager import ConfigManager
+from konusan_tohum.core.module_loader import ModuleLoader
+from konusan_tohum.diagnostics.system_tester import SystemTester
 
 def initialize_system():
     print("🌱 Konuşan Tohum v1.0 başlatılıyor...")
@@ -24,8 +24,9 @@ def initialize_system():
         print(f" - {name}: {'✅' if result else '❌'}")
 
     # Örnek mesaj işleme (ileride chat_api ile bağlanacak)
-    if "dialog.response_generator" in modules:
-        response = modules["dialog.response_generator"].generate("selam", {}, [], user_id="test_user")
+    module_key = "konusan_tohum.dialog.response_generator"
+    if module_key in modules:
+        response = modules[module_key].generate("selam", {}, [], user_id="test_user")
         print(f"\n🗣 Yanıt: {response}")
 
 # Doğrudan çalıştırıldığında sistem başlatılır

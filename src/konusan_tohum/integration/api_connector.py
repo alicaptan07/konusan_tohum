@@ -5,8 +5,8 @@ try:
 except ImportError:  # pragma: no cover - optional dependency
     openai = None  # type: ignore
 
-from core.config_manager import load_config
-from dialog.response_generator import generate_response
+from konusan_tohum.core.config_manager import load_config
+from konusan_tohum.dialog.response_generator import generate_response
 
 
 def _build_stub_response(url: str, params: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:

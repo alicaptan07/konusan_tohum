@@ -1,6 +1,6 @@
 import pytest
 
-from dialog import openrouter_connector
+from konusan_tohum.dialog import openrouter_connector
 
 
 def test_call_openrouter_api_without_requests(monkeypatch):

@@ -1,4 +1,4 @@
-from nlp.intent_loader import load_intents
+from konusan_tohum.nlp.intent_loader import load_intents
 
 try:
     from transformers import AutoTokenizer, AutoModelForSequenceClassification

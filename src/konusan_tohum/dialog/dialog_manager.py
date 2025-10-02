@@ -1,7 +1,7 @@
 # dialog/dialog_manager.py
 
-from dialog.response_generator import generate_response
-from memory.memory_updater import update_memory
+from konusan_tohum.dialog.response_generator import generate_response
+from konusan_tohum.memory.memory_updater import update_memory
 
 
 def handle_message(user_id: str, message: str) -> str:

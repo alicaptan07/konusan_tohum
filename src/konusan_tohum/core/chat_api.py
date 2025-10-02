@@ -1,9 +1,9 @@
-from nlp.intent_detector import detect_intent
-from nlp.entity_extractor import extract_entities
-from nlp.context_manager import update_context, get_context
-from nlp.persona_builder import build_persona
-from dialog.response_generator import generate
-from dialog.tone_adjuster import adjust
+from konusan_tohum.nlp.intent_detector import detect_intent
+from konusan_tohum.nlp.entity_extractor import extract_entities
+from konusan_tohum.nlp.context_manager import update_context, get_context
+from konusan_tohum.nlp.persona_builder import build_persona
+from konusan_tohum.dialog.response_generator import generate
+from konusan_tohum.dialog.tone_adjuster import adjust
 
 
 def process_message(user_id, message):

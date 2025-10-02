@@ -1,5 +1,5 @@
-from core.logger import Logger
-from core.config_manager import ConfigManager
+from konusan_tohum.core.config_manager import ConfigManager
+from konusan_tohum.core.logger import Logger
 
 def test_logger():
     logger = Logger()

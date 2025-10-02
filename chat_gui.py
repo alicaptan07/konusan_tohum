@@ -1,76 +1,54 @@
 import tkinter as tk
 from tkinter import scrolledtext
 import json
-import os
+import sys
+from pathlib import Path
+
+SRC_ROOT = Path(__file__).resolve().parent / "src"
+if SRC_ROOT.exists() and str(SRC_ROOT) not in sys.path:
+    sys.path.insert(0, str(SRC_ROOT))
+
+from konusan_tohum.memory import memory_updater
+from konusan_tohum.nlp.context_manager import (
+    get_context as _get_context,
+    get_context_summary as _get_context_summary,
+    update_context as _update_context,
+)
 
 USER_ID = "demo_user"
-MEMORY_FILE = "memory/user_memory.json"
-MAX_HISTORY = 5  # Bağlamda saklanacak maksimum mesaj sayısı
+MEMORY_FILE = memory_updater.MEMORY_FILE
 
-# -------------------- HAFIZA YÖNETİMİ --------------------
-if not os.path.exists("memory"):
-    os.makedirs("memory")
-
-if not os.path.exists(MEMORY_FILE):
-    with open(MEMORY_FILE, "w", encoding="utf-8") as f:
-        json.dump({}, f, indent=2, ensure_ascii=False)
 
 def load_user_memory(user_id):
-    with open(MEMORY_FILE, "r", encoding="utf-8") as f:
-        all_memory = json.load(f)
-    return all_memory.get(user_id, {})
+    return memory_updater.load_user_memory(user_id, memory_file=MEMORY_FILE)
+
 
 def save_memory(user_memory_dict):
-    with open(MEMORY_FILE, "r", encoding="utf-8") as f:
-        all_memory = json.load(f)
-    for uid, mem in user_memory_dict.items():
-        all_memory[uid] = mem
-    with open(MEMORY_FILE, "w", encoding="utf-8") as f:
-        json.dump(all_memory, f, indent=2, ensure_ascii=False)
+    memory_updater.save_memory(user_memory_dict, memory_file=MEMORY_FILE)
+
 
 def auto_update_memory(user_id, message, intent=None, entities=None):
-    memory_data = load_user_memory(user_id)
-    if "history" not in memory_data:
-        memory_data["history"] = []
-    memory_data["history"].append({
-        "message": message,
-        "intent": intent,
-        "entities": entities
-    })
-    if len(memory_data["history"]) > 20:
-        memory_data["history"] = memory_data["history"][-20:]
-    save_memory({user_id: memory_data})
+    memory_updater.auto_update_memory(
+        user_id, message, intent, entities, memory_file=MEMORY_FILE
+    )
+
 
 def get_user_memory(user_id):
-    return load_user_memory(user_id)
+    return memory_updater.get_user_memory(user_id, memory_file=MEMORY_FILE)
 
-# -------------------- BAĞLAM YÖNETİMİ --------------------
+
 def update_context(user_id, message, intent=None, entities=None):
-    memory = load_user_memory(user_id)
-    if "context" not in memory:
-        memory["context"] = []
+    return _update_context(
+        user_id, message, intent, entities, memory_file=MEMORY_FILE
+    )
 
-    memory["context"].append({
-        "message": message,
-        "intent": intent,
-        "entities": entities
-    })
-
-    if len(memory["context"]) > MAX_HISTORY:
-        memory["context"] = memory["context"][-MAX_HISTORY:]
-
-    save_memory({user_id: memory})
-    auto_update_memory(user_id, message, intent, entities)
-    return memory["context"]
 
 def get_context(user_id):
-    memory = load_user_memory(user_id)
-    return memory.get("context", [])
+    return _get_context(user_id, memory_file=MEMORY_FILE)
+
 
 def get_context_summary(user_id):
-    context = get_context(user_id)
-    summary = "\n".join([f"{c['message']} ({c['intent']})" for c in context])
-    return summary
+    return _get_context_summary(user_id, memory_file=MEMORY_FILE)
 
 # -------------------- BASİT BOT YANIT ÜRETİCİ --------------------
 def handle_message(user_id, message):

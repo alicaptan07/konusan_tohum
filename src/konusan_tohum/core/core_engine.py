@@ -1,9 +1,9 @@
-from nlp.intent_detector import detect_intent
-from nlp.nlp_engine import preprocess_text
-from nlp.entity_extractor import extract_entities
-from nlp.context_manager import update_context
-from dialog.response_generator import generate
-from integration.web_search_mod import search
+from konusan_tohum.nlp.intent_detector import detect_intent
+from konusan_tohum.nlp.nlp_engine import preprocess_text
+from konusan_tohum.nlp.entity_extractor import extract_entities
+from konusan_tohum.nlp.context_manager import update_context
+from konusan_tohum.dialog.response_generator import generate
+from konusan_tohum.integration.web_search_mod import search
 
 
 def process_message(user_id, message):

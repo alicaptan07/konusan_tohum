@@ -5,7 +5,7 @@ try:
 except ImportError:  # pragma: no cover - çevrimdışı ortamlara uyum
     pipeline = None
 
-from core.config_manager import ConfigManager
+from konusan_tohum.core.config_manager import ConfigManager
 
 _GENERATOR = None
 

@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=67", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "konusan-tohum"
+version = "0.1.0"
+description = "Conversational assistant components for the Konuşan Tohum project."
+readme = "README.md"
+authors = [{name = "Konuşan Tohum Team"}]
+requires-python = ">=3.9"
+dependencies = [
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+api = ["requests"]
+nlp = ["transformers", "torch"]
+tests = ["pytest"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
