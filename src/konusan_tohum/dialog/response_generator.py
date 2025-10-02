@@ -20,6 +20,28 @@ _INTENT_ALIASES = {
     "farewell": "goodbye",
 }
 
+
+def _validate_aliases(aliases, responses):
+    """Alias hedeflerinin tanımlı kural tabanlı yanıtları gösterdiğini doğrula."""
+
+    invalid_mappings = {
+        alias: target
+        for alias, target in aliases.items()
+        if target not in responses
+    }
+
+    if invalid_mappings:
+        details = ", ".join(
+            f"'{alias}' -> '{target}'" for alias, target in sorted(invalid_mappings.items())
+        )
+        raise ValueError(
+            "Geçersiz intent alias(lar)ı bulundu: "
+            f"{details}. Alias değerleri RULE_BASED_RESPONSES anahtarlarıyla eşleşmelidir."
+        )
+
+
+_validate_aliases(_INTENT_ALIASES, RULE_BASED_RESPONSES)
+
 __all__ = ["RULE_BASED_RESPONSES", "generate_response", "generate"]
 
 _GENERATOR = None

@@ -32,6 +32,18 @@ def test_rule_based_aliases_present(intent):
     assert response
 
 
+def test_intent_alias_validation_error():
+    """Alias değeri tanımlı yanıt anahtarlarıyla örtüşmediğinde hata üretilmeli."""
+
+    from konusan_tohum.dialog import response_generator as rg
+
+    invalid_aliases = dict(rg._INTENT_ALIASES)
+    invalid_aliases["bilinmeyen"] = "nonexistent"
+
+    with pytest.raises(ValueError, match="Geçersiz intent alias"):
+        rg._validate_aliases(invalid_aliases, rg.RULE_BASED_RESPONSES)
+
+
 def test_generate_matches_generate_response(monkeypatch):
     """Serbest üretim akışında `generate` ve `generate_response` aynı çıktıyı vermeli."""
 
