@@ -1,26 +1,51 @@
 [build-system]
-requires = ["setuptools>=67", "wheel"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "konusan_tohum"
 version = "0.1.0"
-description = "Conversational assistant components for the Konuşan Tohum project."
+description = "Modüler, testlenebilir sohbet asistanı iskeleti (Konuşan Tohum)."
 readme = "README.md"
-authors = [{name = "Konuşan Tohum Team"}]
 requires-python = ">=3.9"
+authors = [{ name = "Konuşan Tohum Team" }]
+
 dependencies = [
-    "pyyaml",
+  "pyyaml>=6.0",
 ]
 
+# pip install .[tests] / .[nlp] / .[api]
 [project.optional-dependencies]
-api = ["requests"]
-nlp = ["transformers", "torch"]
-tests = ["pytest"]
+tests = ["pytest>=7.0", "pytest-cov>=4.0"]
+nlp   = ["transformers>=4.40", "torch"]     # torch platforma göre kurulabilir
+api   = ["requests>=2.31"]
 
-[tool.setuptools]
-package-dir = {"" = "src"}
+[project.urls]
+Homepage = "https://github.com/alicaptan07/konusan_tohum"
+Repository = "https://github.com/alicaptan07/konusan_tohum"
+Issues = "https://github.com/alicaptan07/konusan_tohum/issues"
 
-[tool.setuptools.packages.find]
-where = ["src"]
+# CLI giriş noktaları
+[project.scripts]
+tohum-cli = "konusan_tohum.cli:main"
 
+# GUI (isteğe bağlı, Windows kısayolu için)
+[project.gui-scripts]
+tohum-gui = "konusan_tohum.gui:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --cov=konusan_tohum --cov-report=term-missing"
+
+# (İsteğe bağlı kalite araçları)
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+select = ["E","F","I","UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_unused_ignores = true
+strict_optional = true
+check_untyped_defs = true
