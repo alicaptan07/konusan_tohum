@@ -75,4 +75,9 @@ Bu çağrı, CLI komutuyla aynı başlangıç akışını programatik olarak tet
 - Yeni özellikler eklerken uygun modül dizininde yer alan testleri güncellediğinizden emin olun.
 
 ## Lisans / License
-Bu depo için lisans bilgisi henüz eklenmemiştir. Kurumsal gereksinimlerinize göre lisans dosyası oluşturabilirsiniz.
+MIT License
+
+Copyright (c) 2025 Konuşan Tohum
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+...
